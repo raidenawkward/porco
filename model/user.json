@@ -1,0 +1,32 @@
+{
+    "id":"数据库唯一标识",
+    "createdtime":12345678,
+    "updatedtime":12345678,
+    "name":"",
+    "gender":"M/F",
+    "phone":"",
+    "email":"",
+    "comment":"对用户的备注",
+    "birth":"生日",
+    "accounts":[
+        {
+            "type":"wx,weibo,xxx",
+            "account":"从各河渠道(如wx)获得的用户id"
+        }
+    ],
+    "addresses":[
+        {
+            "name":"default",
+            "address":"天津市..."
+        },
+        {
+            "name":"家",
+            "address":"天津市..."
+        }
+    ],
+    "membership":[
+        {
+            "type":"会员类型"
+        }
+    ]
+}
