@@ -49,10 +49,10 @@ module.exports = {
                         result = {
                             code: 500,
                             msg:'failed',
-                            result: err, 
+                            result: err,
                         };
                     }
-    
+
                     jsonWrite(res, result);
                     connection.release();
             });
@@ -83,7 +83,7 @@ module.exports = {
         pool.getConnection(function(err, connection) {
             // 获取前台页面传过来的参数
             var param = req.query || req.params;
-             
+
             // 建立连接，向表中插入值
             // 'INSERT INTO user(id, name, age) VALUES(0,?,?)',
             connection.query($sql.update, [param.name, param.desc,param.price,param.sum,param.id], function(err, result) {
@@ -91,13 +91,12 @@ module.exports = {
                     result = {
                         code: 200,
                         msg:'修改成功'
-                    };    
+                    };
                 }
- 
+
                 // 以json形式，把操作结果返回给前台页面
                 jsonWrite(res, result);
- 
-                // 释放连接 
+
                 connection.release();
             });
         });
