@@ -1,0 +1,16 @@
+{
+    "id":"数据库唯一标识",
+    "createdtime":12345678,
+    "updatedtime":12345678,
+    "userid":"与普通账号绑定",
+    "privilages":[
+        "id1", "id2", ".."
+    ],
+    "name":"管理员人员称谓",
+    "role":"角色名",
+    "phone":"",
+    "email":"用于收发验证码",
+    "cert":"保留, 验证证书",
+    "passwordhash":"",
+    "extend":{}
+}

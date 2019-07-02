@@ -7,5 +7,6 @@
     "contact":"对接人",
     "email":"",
     "address":"",
-    "comment":""
+    "comment":"",
+    "extend":{}
 }

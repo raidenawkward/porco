@@ -1,5 +1,6 @@
 {
     "id":"数据库唯一标识",
+    "userid":"平台分配此id",
     "createdtime":12345678,
     "updatedtime":12345678,
     "name":"",
@@ -28,5 +29,6 @@
         {
             "type":"会员类型"
         }
-    ]
+    ],
+    "extend":{}
 }

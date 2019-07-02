@@ -16,5 +16,6 @@
         "shouldpay":"123.45",
         "discount":"1.23",
         "final":"34.5"
-    }
+    },
+    "extend":{}
 }
