@@ -1,13 +1,11 @@
-var good={
-	//增
-	goodinsert:'INSERT INTO `good` (`id`,`name`,`desc`,`price`,`sum`) VALUES(0,?,?,?,?)',
-	//删
-	gooddelete: 'delete from good where id=?',
-	//改
-	goodupdate:'UPDATE `good` SET `name`=?,`desc`=?,`price`=?,`sum`=? WHERE `id`=?',
-    //查
-    goodAll: 'select * from good',
-    goodById: 'select * from good where id=?'
+var table = 'good'
+var goodsql = {
+	insert:'INSERT INTO `' + table + '` (`id`, `sn`, `createdtime`, `updatedtime`, `name`, `unit`, `description`, `images`, `vendor`, `price`, `tags`, `extend`)\
+			VALUES(0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    delete: 'delete from good where id=?',
+    update:'UPDATE `good` SET `name`=?,`desc`=?,`price`=?,`sum`=? WHERE `id`=?',
+    list: 'select * from good',
+	retrieve: 'select * from good where id=?'
 }
 
-module.exports=good;
+module.exports = goodsql;

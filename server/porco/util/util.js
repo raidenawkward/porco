@@ -1,7 +1,3 @@
-/**
- * Created by fujunou on 2015/3/6.
- */
-
 module.exports = {
     extend: function(target, source, flag) {
         for(var key in source) {
@@ -11,5 +7,13 @@ module.exports = {
                     (target[key] === void 0 && (target[key] = source[key]));
         }
         return target;
+    },
+
+    currentTimestamp: function() {
+        return new Date().getTime().toString()
+    },
+
+    timestampToDate: function(timestamp) {
+        return new Date(parseInt(timestamp))
     }
 }
