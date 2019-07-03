@@ -6,7 +6,7 @@ var $sql=require('./goodsql.js');
 
 var pool = mysql.createPool($util.extend({}, $conf.mysql));
 
-var jsonWrite = function (res, ret) {
+var writeResponse = function (res, ret) {
     if(typeof ret === 'undefined') {
         res.json({
             code:'1',
@@ -53,72 +53,119 @@ module.exports = {
                         };
                     }
 
-                    jsonWrite(res, result);
+                    writeResponse(res, result);
                     connection.release();
             });
         });
     },
 
     delete: function (req, res, next) {
-        // delete by Id
         pool.getConnection(function(err, connection) {
-            var id = +req.query.id;
-            connection.query($sql.delete, id, function(err, result) {
-                if(result.affectedRows > 0) {
+            var goodjson = req.body;
+
+            connection.query($sql.delete, [goodjson.id, goodjson.sn], function(err, result) {
+                console.log("result: %d %s\n", err, result)
+                if (result && result.affectedRows > 0) {
                     result = {
                         code: 200,
-                        msg:'删除成功'
+                        msg:'succeed'
                     };
+
                 } else {
-                    result = void 0;
+                    result = {
+                        code: 500,
+                        msg:'failed',
+                        result: err,
+                    };
                 }
-                jsonWrite(res, result);
+
+                writeResponse(res, result);
                 connection.release();
             });
         });
     },
     update: function (req, res, next) {
-        // update by id
-        // 为了简单，要求同时传name和age两个参数
         pool.getConnection(function(err, connection) {
-            // 获取前台页面传过来的参数
-            var param = req.query || req.params;
+            var goodjson = req.body;
+            var timestamp = new Date().getTime().toString();
 
-            // 建立连接，向表中插入值
-            // 'INSERT INTO user(id, name, age) VALUES(0,?,?)',
-            connection.query($sql.update, [param.name, param.desc,param.price,param.sum,param.id], function(err, result) {
-                if(result) {
-                    result = {
-                        code: 200,
-                        msg:'修改成功'
-                    };
-                }
+            connection.query($sql.update, [
+                timestamp, // goodjson.updatedtime,
+                goodjson.name,
+                goodjson.unit,
+                goodjson.description,
+                JSON.stringify(goodjson.images),
+                JSON.stringify(goodjson.vendor),
+                JSON.stringify(goodjson.price),
+                JSON.stringify(goodjson.tags),
+                JSON.stringify(goodjson.extend),
+                // conditions
+                goodjson.id, goodjson.sn], function(err, result) {
+                    if (result && result.affectedRows > 0) {
+                        result = {
+                            code: 200,
+                            msg:'succeed'
+                        };
 
-                // 以json形式，把操作结果返回给前台页面
-                jsonWrite(res, result);
+                    } else {
+                        result = {
+                            code: 500,
+                            msg:'failed',
+                            result: err,
+                        };
+                    }
 
-                connection.release();
+                    writeResponse(res, result);
+
+                    connection.release();
             });
         });
     },
-        //得到所有商品 在路由routes调用本方法，这个方法调用sql语句 ，并返回相应结果jsonwrite
+
     list: function (req, res, next) {
         pool.getConnection(function(err, connection) {
-            console.log("wtf?! %s", err);
+
             connection.query($sql.list, function(err, result) {
-                jsonWrite(res, result);
+                if (result) {
+                    result = {
+                        code: 200,
+                        msg: 'succeed',
+                        data: result
+                    };
+
+                } else {
+                    result = {
+                        code: 500,
+                        msg:'failed',
+                        result: err,
+                    };
+                }
+                writeResponse(res, result);
                 connection.release();
             });
         });
     },
 
     retrieve: function (req, res, next) {
-        var id = +req.query.id; // 为了拼凑正确的sql语句，这里要转下整数
+        var sn = req.query.sn;
         pool.getConnection(function(err, connection) {
-            connection.query($sql.retrieve, id, function(err, result) {
-                jsonWrite(res, result);
-                connection.release();
+            connection.query($sql.retrieve, sn, function(err, result) {
+                if (result) {
+                    result = {
+                        code: 200,
+                        msg: 'succeed',
+                        data: result
+                    };
 
+                } else {
+                    result = {
+                        code: 500,
+                        msg:'failed',
+                        result: err,
+                    };
+                }
+                writeResponse(res, result);
+                connection.release();
             });
         });
     },
