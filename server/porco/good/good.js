@@ -1,8 +1,10 @@
 
+var formidable = require("formidable");
+
 var mysql=require('mysql');
 var $conf=require('../conf/db.js');
 var $util=require('../util/util.js');
-var $sql=require('./goodsql.js');
+var $sql=require('./sql.js');
 
 var pool = mysql.createPool($util.extend({}, $conf.mysql));
 
@@ -16,6 +18,13 @@ var writeResponse = function (res, ret) {
         res.json(ret);
     }
 };
+
+function dbquery(query, params, callback) {
+    pool.getConnection(function(err, connection) {
+        connection.query(query, params, callback);
+        connection.release();
+    });
+}
 
 module.exports = {
 
@@ -148,8 +157,7 @@ module.exports = {
 
     retrieve: function (req, res, next) {
         var sn = req.query.sn;
-        pool.getConnection(function(err, connection) {
-            connection.query($sql.retrieve, sn, function(err, result) {
+        dbquery($sql.retrieve, sn, function(err, result) {
                 if (result) {
                     result = {
                         code: 200,
@@ -165,8 +173,27 @@ module.exports = {
                     };
                 }
                 writeResponse(res, result);
-                connection.release();
-            });
         });
     },
+
+    imageupload: function (req, res, next) {
+        var path = require("path");
+        var form = new formidable.IncomingForm();
+        let uploadDir = path.join(__dirname, "../upload/images/");
+        form.uploadDir = uploadDir;
+        form.keepExtensions = true
+
+        form.parse(req, function (err, fields, files) {
+            if (err) {
+                res.send(err);
+                return;
+            }
+
+            let newPath = path.join(uploadDir, req.name);
+            var downUrl = "http://localhost:3000/upload/images/" + req.name;
+            fs.rename(oldPath, newPath, function() {
+                res.json({ downUrl: downUrl })
+            });
+        });
+    }
 };

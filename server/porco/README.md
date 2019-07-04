@@ -1,18 +1,18 @@
 # nodejs服务端开发（Express+Mysql） #
 ## 项目展示 ##
 
-1、可以在github下载：[https://github.com/htmlk/express](https://github.com/htmlk/express "https://github.com/htmlk/express")
+1. 可以在github下载：[https://github.com/htmlk/express](https://github.com/htmlk/express "https://github.com/htmlk/express")
 
 ```
 
 	git clone git@github.com:htmlk/express.git
 ```
 
-2、再导入express.sql到数据库，数据库名test，表名：good 结构如下
+2. 再导入express.sql到数据库，数据库名test，表名：good 结构如下
 
 ![](http://i.imgur.com/6hfrMJp.png)
 
-3、直接run：npm start就能使用了！
+3. 直接run：npm start就能使用了！
 
 ```
 
@@ -20,9 +20,9 @@
 
 ```
 
-3、最好自己重新建一遍，才能更好适配自己的需求！下面有详细步骤
+3. 最好自己重新建一遍，才能更好适配自己的需求！下面有详细步骤
 ## 项目开发 ##
-### 1、官网下载 nodejs（带npm包管理器）和 git； ###
+### 1. 官网下载 nodejs（带npm包管理器）和 git； ###
 
 ```
 
@@ -31,7 +31,7 @@
 	//node版本v5.2.0
 	node -v
 ```
-### 2、使用git，通过npm包管理器，安装express 和express种子生成器（express-generator 生成目录文件）； ###
+### 2. 使用git，通过npm包管理器，安装express 和express种子生成器（express-generator 生成目录文件）； ###
 
 ```
 
@@ -60,7 +60,7 @@ app.js 程序main文件
 
 ![](http://i.imgur.com/EsIhUZK.png)
 
-### 3、启动express项目 ###
+### 3. 启动express项目 ###
 
 ```
 	npm start
@@ -69,13 +69,13 @@ app.js 程序main文件
 
 通过localhost就可以访问了
 
-### 4、新建mysql建表 ###
+### 4. 新建mysql建表 ###
 路由信息新建一个conf文件夹，再新建db.js
 表名：test
 （可以将本项目的express.sql导入在mysql数据库中）
 ![](http://i.imgur.com/6hfrMJp.png)
 
-### 5、接口说明 ###
+### 5. 接口说明 ###
 
 通过id删除商品：http://localhost:3100/goodDel?id=115
 
@@ -88,9 +88,9 @@ name=123&desc=123&price=123&sum=234
 
 查询单个商品：http://localhost:3100/goodById?id=112
 
-### 6、程序运行思路 ###
+### 6. 程序运行思路 ###
 
-1、浏览器访问地址(localhsot)访问路由文件/routes下的index.js
+1. 浏览器访问地址(localhsot)访问路由文件/routes下的index.js
 
 ```
 	var express = require('express');
@@ -127,7 +127,7 @@ name=123&desc=123&price=123&sum=234
 	
 	module.exports = router;
 ```
-2、访问localhost/goodAll进入查询全部商品路由，路由调用goodlist里的方法goodAll （注意：把goodlist导入进来goodlist.js）
+2. 访问localhost/goodAll进入查询全部商品路由，路由调用goodlist里的方法goodAll （注意：把goodlist导入进来goodlist.js）
 
 ```
 
@@ -142,7 +142,7 @@ name=123&desc=123&price=123&sum=234
 	    }
 
 ```
-3、这个方法调用goodsql.js里面的sql语句 ，并返回相应结果jsonwrite
+3. 这个方法调用goodsql.js里面的sql语句 ，并返回相应结果jsonwrite
 ```
 
 	var good={
@@ -160,7 +160,7 @@ name=123&desc=123&price=123&sum=234
 	module.exports=good;
 ```
 ###解决问题###
-1、解决跨域问题（在app.js里面添加）
+1. 解决跨域问题（在app.js里面添加）
 ```
 	//设置跨域访问
 	app.all('*', function(req, res, next) {
@@ -173,6 +173,14 @@ name=123&desc=123&price=123&sum=234
 	});
 ```	
 
-2、拼凑sql语句
+2. 拼凑sql语句
 
 	var id = +req.query.id; // 为了拼凑正确的sql语句，这里要转下整数
+
+
+
+### 7. 图片上传 ###
+
+
+
+>npm install formidable -g
